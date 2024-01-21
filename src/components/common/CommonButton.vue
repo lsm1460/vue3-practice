@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { onClick } = defineProps<{ onClick: () => void }>()
+const { onClick, text } = defineProps<{ onClick: () => void; text: string }>()
 </script>
 
 <template>
-  <button @click="onClick" type="button">다음</button>
+  <button @click="onClick" type="button">{{ text }}</button>
 </template>

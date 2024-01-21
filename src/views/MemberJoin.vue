@@ -6,33 +6,70 @@ import { MemberJoinStepType } from '../types'
 import PrivacyStep from '../components/memberJoin/PrivacyStep.vue'
 import AddressStep from '../components/memberJoin/AddressStep.vue'
 import PaymentStep from '../components/memberJoin/PaymentStep.vue'
+import MemberJoinComplete from '@/components/memberJoin/MemberJoinComplete.vue'
 
 const joinStep = ref<MemberJoinStepType>(0)
 const joinForm = ref<HTMLFormElement | null>(null)
-
+const joinComplete = ref({
+  name: '',
+  email: '',
+  address: '',
+  phone: '',
+})
 const showStep = (_joinStep: number, _step: number) => (_joinStep === _step ? true : false)
-const moveStep = () => {
+const moveToNextStep = async () => {
   if (!joinForm.value) {
     return
   }
 
-  if (joinStep.value < MEMBER_JOIN_STEP.length - 1) {
+  if (joinStep.value < MEMBER_JOIN_STEP.length - 2) {
     joinStep.value++
   } else {
-    // move to complete
-    const _form = new FormData(joinForm.value)
-    _form.get('email')
+    // prevent behavior if loading or fetching
+    // show loading here
+
+    try {
+      const _form = new FormData(joinForm.value)
+
+      // check value
+      // for (let pair of _form.entries()) {
+      //   console.log(pair[0] + ', ' + pair[1])
+      // }
+
+      // do fetch post await
+
+      // for join complete, save data
+      joinComplete.value = {
+        name: `${_form.get('name')?.toString()}`,
+        email: `${_form.get('email')?.toString()}`,
+        address: `${_form.get('address')?.toString()}`,
+        phone: `${_form.get('phone')?.toString()}`,
+      }
+      // close loading
+
+      // move to complete
+      joinStep.value++
+    } catch (e) {
+      // handle error if you want..
+    }
   }
 }
 </script>
 
 <template>
-  <div>
-    <form action="" ref="joinForm">
-      <PrivacyStep :isShow="showStep(joinStep, 0)" :moveStep="moveStep" />
-      <AddressStep :isShow="showStep(joinStep, 1)" :moveStep="moveStep" />
-      <PaymentStep :isShow="showStep(joinStep, 2)" :moveStep="moveStep" />
-    </form>
+  <div class="wrapper">
+    <div v-if="joinStep < MEMBER_JOIN_STEP.length - 1">
+      <form action="" ref="joinForm">
+        <PrivacyStep :isShow="showStep(joinStep, 0)" :moveToNextStep="moveToNextStep" />
+        <AddressStep
+          :isShow="showStep(joinStep, 1)"
+          :moveToNextStep="moveToNextStep"
+          :moveToPrevStep="() => joinStep--"
+        />
+        <PaymentStep :isShow="showStep(joinStep, 2)" :moveToNextStep="moveToNextStep" />
+      </form>
+    </div>
+    <MemberJoinComplete v-else :joinComplete="joinComplete" />
   </div>
 </template>
 
