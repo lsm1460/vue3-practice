@@ -58,7 +58,7 @@ const moveToNextStep = async () => {
 
 <template>
   <div class="wrapper">
-    <div v-if="joinStep < MEMBER_JOIN_STEP.length - 1">
+    <div class="step-wrap" v-if="joinStep < MEMBER_JOIN_STEP.length - 1">
       <form action="" ref="joinForm">
         <PrivacyStep :isShow="showStep(joinStep, 0)" :moveToNextStep="moveToNextStep" />
         <AddressStep
@@ -74,9 +74,17 @@ const moveToNextStep = async () => {
 </template>
 
 <style scoped lang="scss">
-div {
-  button {
-    font-size: 20px;
+.wrapper {
+  max-width: 350px;
+  height: 100svh;
+  max-height: 500px;
+  background-color: rgb(241, 241, 241);
+  margin: 0 auto;
+  padding: 15px;
+
+  .step-wrap,
+  form {
+    height: 100%;
   }
 }
 </style>

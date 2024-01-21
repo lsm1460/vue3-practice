@@ -104,9 +104,9 @@ const moveNext = () => {
 </script>
 
 <template>
-  <div :style="{ display: isShow ? 'block' : 'none' }">
+  <div class="step-area" v-bind:class="{ active: isShow }">
     <ul>
-      <li>
+      <li class="list-item">
         <label>
           이름
           <input
@@ -120,7 +120,7 @@ const moveNext = () => {
         </label>
         <WarringText :isShow="warringInputs['userName']" :text="'이름이 올바르지 않습니다.'" />
       </li>
-      <li>
+      <li class="list-item">
         <label>
           연락처
           <input
@@ -133,12 +133,12 @@ const moveNext = () => {
         </label>
         <WarringText :isShow="warringInputs['phoneNumber']" :text="'전화번호 형식이 올바르지 않습니다.'" />
       </li>
-      <li>
+      <li class="list-item">
         <label>
           주소
-          <button @click="openAddress" type="button">우편번호</button>
+          <button @click="openAddress" type="button" class="address-button">우편번호</button>
         </label>
-        <ul>
+        <ul class="address-list">
           <li>
             <p>
               <input name="address" readonly ref="addressInputElRef" @click="openAddress" placeholder="주소" />
@@ -161,9 +161,39 @@ const moveNext = () => {
       </li>
     </ul>
 
-    <div>
+    <div class="button-wrap">
       <CommonButton v-if="!!moveToPrevStep" text="이전" :onClick="moveToPrevStep" />
       <CommonButton text="다음" :onClick="moveNext" />
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import '../../mixin';
+
+@include list-item-mixin;
+@include step-area-mixin;
+
+.address-button {
+  @include button-default;
+}
+
+.address-list {
+  margin-top: 8px;
+
+  li {
+    & + li {
+      margin-top: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 5px;
+    }
+  }
+}
+.button-wrap {
+  display: flex;
+  gap: 15px;
+}
+</style>

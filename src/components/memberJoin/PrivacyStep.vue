@@ -49,9 +49,9 @@ const moveNext = () => {
 </script>
 
 <template>
-  <div :style="{ display: isShow ? 'block' : 'none' }">
+  <div class="step-area" v-bind:class="{ active: isShow }">
     <ul>
-      <li>
+      <li class="list-item">
         <label>
           이메일
           <input
@@ -64,7 +64,7 @@ const moveNext = () => {
         </label>
         <WarringText :isShow="warringInputs['email']" :text="'이메일 형식이 올바르지 않습니다.'" />
       </li>
-      <li>
+      <li class="list-item">
         <label>
           비밀번호
           <input
@@ -79,7 +79,7 @@ const moveNext = () => {
           :text="'비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.'"
         />
       </li>
-      <li>
+      <li class="list-item">
         <label>
           비밀번호 확인
           <input
@@ -92,6 +92,15 @@ const moveNext = () => {
       </li>
     </ul>
 
-    <CommonButton :onClick="moveNext" text="다음" />
+    <div class="button-wrap">
+      <CommonButton :onClick="moveNext" text="다음" />
+    </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import '../../mixin';
+
+@include list-item-mixin;
+@include step-area-mixin;
+</style>

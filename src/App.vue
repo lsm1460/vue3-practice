@@ -17,5 +17,6 @@ import MemberJoin from './views/MemberJoin.vue'
   margin: 0;
   padding: 0;
   list-style: none;
+  box-sizing: border-box;
 }
 </style>

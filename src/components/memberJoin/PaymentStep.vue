@@ -62,23 +62,47 @@ const moveNext = () => {
 </script>
 
 <template>
-  <div :style="{ display: isShow ? 'block' : 'none' }">
-    <p>
-      <label>
-        카드번호
-        <input
-          v-for="(num, _i) in cardNumber"
-          name="card"
-          :key="_i"
-          type="text"
-          maxlength="4"
-          :value="num"
-          :ref="(el) => setInputList(el, _i)"
-          @input="(_evt) => updateValue(_evt, _i)"
-        />
-      </label>
-    </p>
-    <WarringText :isShow="isWarring" :text="'잘못된 카드번호입니다.'" />
-    <CommonButton text="다음" :onClick="moveNext" />
+  <div class="step-area" v-bind:class="{ active: isShow }">
+    <ul>
+      <li>
+        <label>
+          카드번호
+          <p class="card-number-wrap">
+            <input
+              v-for="(num, _i) in cardNumber"
+              name="card"
+              :key="_i"
+              type="text"
+              maxlength="4"
+              :value="num"
+              :ref="(el) => setInputList(el, _i)"
+              @input="(_evt) => updateValue(_evt, _i)"
+            />
+          </p>
+        </label>
+        <WarringText :isShow="isWarring" :text="'잘못된 카드번호입니다.'" />
+      </li>
+    </ul>
+
+    <div class="button-wrap">
+      <CommonButton text="다음" :onClick="moveNext" />
+    </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import '../../mixin';
+
+@include step-area-mixin;
+
+.card-number-wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+
+  input {
+    display: block;
+    width: 23%;
+  }
+}
+</style>

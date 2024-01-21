@@ -23,3 +23,18 @@ const { joinComplete } = defineProps<{
     </ul>
   </div>
 </template>
+
+<style scoped lang="scss">
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+}
+</style>
